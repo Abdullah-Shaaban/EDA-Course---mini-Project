@@ -21,6 +21,8 @@ struct aspect
 {
 	int x_dim;
 	int y_dim;
+	aspect *left=nullptr;
+	aspect *right=nullptr;
 };
 
 class gate 
@@ -57,8 +59,13 @@ gate shape_gen(gate &A, gate &B, bool vertical){
 				tmp.y_dim	=	max(	asp_A_i.y_dim	,	asp_B_j.y_dim	);
 				//Fill the aspect ratio vector
 				G_BIG.asp_vec.push_back(tmp);
+				//
+
+
+				/*			On hold till I try trees
 				//Fill the children corresponding aspect ratios vector -- for tracing back
 				G_BIG.children_asp.push_back({ asp_A_i , asp_B_j });
+				*/
 				//k++;
 			}
 			//k++;
@@ -75,6 +82,13 @@ gate shape_gen(gate &A, gate &B, bool vertical){
 				tmp.y_dim	=	asp_A_i.y_dim	+	asp_B_j.y_dim;
 				tmp.x_dim	=	max(	asp_A_i.x_dim	,	asp_B_j.x_dim	);
 				G_BIG.asp_vec.push_back(tmp);
+				//
+				
+
+				/*			On hold till I try trees
+				//Fill the children corresponding aspect ratios vector -- for tracing back
+				G_BIG.children_asp.push_back({ asp_A_i , asp_B_j });
+				*/
 				//k++;
 			}
 			//k++;	
