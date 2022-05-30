@@ -57,11 +57,12 @@ gate shape_gen(gate &A, gate &B, bool vertical){
 				//First possiblity x_big=x_A0+x_B0 -- y_big=max(y_A0,y_B0) ____ A.asp_vec[0] means A0 and A.asp_vec[1] means A1
 				tmp.x_dim	=	asp_A_i.x_dim	+	asp_B_j.x_dim;
 				tmp.y_dim	=	max(	asp_A_i.y_dim	,	asp_B_j.y_dim	);
+				//Pointing at the aspect ratio that constitute this one.
+				tmp.left	=	&asp_A_i;
+				tmp.right	=	&asp_B_j;
 				//Fill the aspect ratio vector
 				G_BIG.asp_vec.push_back(tmp);
 				//
-
-
 				/*			On hold till I try trees
 				//Fill the children corresponding aspect ratios vector -- for tracing back
 				G_BIG.children_asp.push_back({ asp_A_i , asp_B_j });
