@@ -21,8 +21,8 @@ struct aspect
 {
 	int x_dim;
 	int y_dim;
-	aspect *left=nullptr;
-	aspect *right=nullptr;
+	string child_A;
+	string child_B;
 };
 
 class gate 
