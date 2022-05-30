@@ -34,14 +34,7 @@ int main() {
 			//See if will apply vertical or horizontal or vertical composition 
 			vertical = !vertical;
 			/*ADD CODE to change vertical properly*/
-			if (vertical)
-			{
-				Big_lvl_1.push_back(shape_V_gen(A,B));
-			}
-			else
-			{
-				Big_lvl_1.push_back(shape_H_gen(A,B));
-			}	
+			Big_lvl_1.push_back(shape_gen(A,B,vertical));	
 		}	
 	}
 	//Is there unmerged blocks?
@@ -81,14 +74,7 @@ int main() {
 			//See if will apply vertical or horizontal or vertical composition 
 			vertical = !vertical;
 			/*ADD CODE to change vertical properly*/
-			if (vertical)
-			{
-				Big_lvl_2.push_back(shape_V_gen(A,B));
-			}
-			else
-			{
-				Big_lvl_2.push_back(shape_H_gen(A,B));
-			}	
+			Big_lvl_2.push_back(shape_gen(A,B,vertical));	
 		}
 	}
 	//Is there unmerged blocks?
@@ -128,14 +114,7 @@ int main() {
 			//See if will apply vertical or horizontal or vertical composition 
 			vertical = !vertical;
 			/*ADD CODE to change vertical properly*/
-			if (vertical)
-			{
-				Big_lvl_3.push_back(shape_V_gen(A,B));
-			}
-			else
-			{
-				Big_lvl_3.push_back(shape_H_gen(A,B));
-			}	
+			Big_lvl_3.push_back(shape_gen(A,B,vertical));	
 		}
 	}
 	//Is there unmerged blocks?
@@ -175,14 +154,7 @@ int main() {
 			//See if will apply vertical or horizontal or vertical composition 
 			vertical = !vertical;
 			/*ADD CODE to change vertical properly*/
-			if (vertical)
-			{
-				Big_lvl_4.push_back(shape_V_gen(A,B));
-			}
-			else
-			{
-				Big_lvl_4.push_back(shape_H_gen(A,B));
-			}	
+			Big_lvl_4.push_back(shape_gen(A,B,vertical));	
 		}
 	}
 	//Is there unmerged blocks?
@@ -222,14 +194,7 @@ int main() {
 			//See if will apply vertical or horizontal or vertical composition 
 			vertical = !vertical;
 			/*ADD CODE to change vertical properly*/
-			if (vertical)
-			{
-				Big_lvl_5.push_back(shape_V_gen(A,B));
-			}
-			else
-			{
-				Big_lvl_5.push_back(shape_H_gen(A,B));
-			}	
+			Big_lvl_5.push_back(shape_gen(A,B,vertical));	
 		}
 	}
 	//Is there unmerged blocks?
@@ -249,25 +214,37 @@ int main() {
 	//====================================================//
 	//       	Printing Outputs		      //
 	//====================================================//
-	//vector<int> TOP_area_vec;
-	int Min_Area = Big_lvl_5[0].asp_vec[0].x_dim*Big_lvl_5[0].asp_vec[0].y_dim;
-	int min_x_dim = Big_lvl_5[0].asp_vec[0].x_dim;
-	int min_y_dim = Big_lvl_5[0].asp_vec[0].y_dim;
+	
+	//Finding the minimum area 	
+	int 	Min_Area 	= Big_lvl_5[0].asp_vec[0].x_dim	* Big_lvl_5[0].asp_vec[0].y_dim;
+	aspect 	min_asp 	= Big_lvl_5[0].asp_vec[0];
+	int 	k		= 0;
+	int 	min_area_pos	= 0;	//Holds the index of the minimum area aspect ratio
 	for (auto& asp : Big_lvl_5[0].asp_vec){	
-		//TOP_area_vec.push_back(asp.x_dim*asp.y_dim);
 		if(asp.x_dim*asp.y_dim<Min_Area){
 			Min_Area = asp.x_dim*asp.y_dim;
-			min_x_dim = asp.x_dim;
-			min_y_dim = asp.y_dim;
+			min_asp  = asp;
+			min_area_pos = k;	
 		}
+		k++;
 	}
 	int core_area=0;
 	for (auto& g : gate_arr){	
 		core_area=core_area + g.asp_vec[0].x_dim * g.asp_vec[0].y_dim;
 	}
 	//int Min_Area = *min_element(std::begin(TOP_area_vec), std::end(TOP_area_vec));
-	cout<<"The minimum area: "<<Min_Area<<"\t--\t Aspect Ratio: "<<min_x_dim<<" by "<<min_y_dim<<endl;
+	cout<<"The minimum area: "<<Min_Area<<"\t--\t Aspect Ratio: "<<min_asp.x_dim<<" by "<<min_asp.y_dim<<endl;
 	cout<<"The core area: "<<core_area<< "\t--\tThe core utilization: "<<(double)core_area/Min_Area<<endl;
+
+
+	//====================================================//
+	//       		Tracing Back		      //
+	//====================================================//
+	aspect asp_A, asp_B;
+	asp_A = Big_lvl_5[0].children_asp[min_area_pos][0];	//This is the aspect ratio of child A that constituted the min area for the parent
+	asp_B = Big_lvl_5[0].children_asp[min_area_pos][1];	//This is the aspect ratio of child B that constituted the min area for the parent
+	//Go through the children and determine the index of asp_A and asp_B -> then repeat the same for their children
+	
 
 	return 0;
 }

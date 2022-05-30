@@ -17,12 +17,6 @@
 
 using namespace std;
 
-struct child
-{
-	gate *g_ptr;
-
-};
-
 struct aspect
 {
 	int x_dim;
@@ -41,32 +35,30 @@ public:
 	bool			merged=0;
 };
 
-void print_aspect_ratio(gate g)
-{
-	cout<<"Gate Name: "<<g.name<<"\tGate type: "<<g.gate_type<<"\nPrinting aspect ratios:\n";
-	for (auto& A_i : g.asp_vec)
-	{
-		cout<<"x_dim= "<<A_i.x_dim<<"\ty_dim= "<<A_i.y_dim<<endl;
-	}
-}
-
-gate shape_H_gen(gate &A, gate &B, bool vertical){
+gate shape_gen(gate &A, gate &B, bool vertical){
 	gate G_BIG; 
 	int k=0;
 	aspect tmp;
+	//Prevent them from merging again in the same iteration
 	A.merged = 1;
 	B.merged = 1;
-	G_BIG.name = "(" + A.name + " H " + B.name + ")";
+	//Link Big to its children
+	G_BIG.children[0] = &A;  G_BIG.children[1] = &B;
+	//Choosing composition
 	if (vertical)
 	{
-		for (auto& A_i : A.asp_vec)
+		G_BIG.name = "(" + A.name + " V " + B.name + ")";
+		for (auto& asp_A_i : A.asp_vec)
 		{
-			for (auto& B_j : B.asp_vec)
+			for (auto& asp_B_j : B.asp_vec)
 			{
 				//First possiblity x_big=x_A0+x_B0 -- y_big=max(y_A0,y_B0) ____ A.asp_vec[0] means A0 and A.asp_vec[1] means A1
-				tmp.x_dim	=	A_i.x_dim	+	B_j.x_dim;
-				tmp.y_dim	=	max(	A_i.y_dim	,	B_j.y_dim	);
+				tmp.x_dim	=	asp_A_i.x_dim	+	asp_B_j.x_dim;
+				tmp.y_dim	=	max(	asp_A_i.y_dim	,	asp_B_j.y_dim	);
+				//Fill the aspect ratio vector
 				G_BIG.asp_vec.push_back(tmp);
+				//Fill the children corresponding aspect ratios vector -- for tracing back
+				G_BIG.children_asp.push_back({ asp_A_i , asp_B_j });
 				//k++;
 			}
 			//k++;
@@ -74,13 +66,14 @@ gate shape_H_gen(gate &A, gate &B, bool vertical){
 	}
 	else
 	{
-		for (auto& A_i : A.asp_vec)
+		G_BIG.name = "(" + A.name + " H " + B.name + ")";
+		for (auto& asp_A_i : A.asp_vec)
 		{
-			for (auto& B_j : B.asp_vec)
+			for (auto& asp_B_j : B.asp_vec)
 			{
 				//First possiblity x_big=x_A0+x_B0 -- y_big=max(y_A0,y_B0) ____ A.asp_vec[0] means A0 and A.asp_vec[1] means A1
-				tmp.y_dim	=	A_i.y_dim	+	B_j.y_dim;
-				tmp.x_dim	=	max(	A_i.x_dim	,	B_j.x_dim	);
+				tmp.y_dim	=	asp_A_i.y_dim	+	asp_B_j.y_dim;
+				tmp.x_dim	=	max(	asp_A_i.x_dim	,	asp_B_j.x_dim	);
 				G_BIG.asp_vec.push_back(tmp);
 				//k++;
 			}
@@ -89,27 +82,14 @@ gate shape_H_gen(gate &A, gate &B, bool vertical){
 	}
 	return G_BIG;
 }
-gate shape_V_gen(gate &A, gate &B){
-	gate G_BIG; 
-	int k=0;
-	aspect tmp;
-	A.merged = 1;
-	B.merged = 1;
-	G_BIG.name = "(" + A.name + " V " + B.name + ")";
-	for (auto& A_i : A.asp_vec)
+
+void print_aspect_ratio(gate g)
+{
+	cout<<"Gate Name: "<<g.name<<"\tGate type: "<<g.gate_type<<"\nPrinting aspect ratios:\n";
+	for (auto& A_i : g.asp_vec)
 	{
-		for (auto& B_j : B.asp_vec)
-		{
-			//First possiblity x_big=x_A0+x_B0 -- y_big=max(y_A0,y_B0) ____ A.asp_vec[0] means A0 and A.asp_vec[1] means A1
-			tmp.y_dim	=	A_i.y_dim	+	B_j.y_dim;
-			tmp.x_dim	=	max(	A_i.x_dim	,	B_j.x_dim	);
-			G_BIG.asp_vec.push_back(tmp);
-			//k++;
-		}
-		//k++;
-		
+		cout<<"x_dim= "<<A_i.x_dim<<"\ty_dim= "<<A_i.y_dim<<endl;
 	}
-	return G_BIG;
 }
 
 int count_components (ifstream &file) {
