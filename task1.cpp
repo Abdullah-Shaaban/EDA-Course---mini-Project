@@ -31,8 +31,9 @@ int main() {
 			//See if A and B a good fit to be merged -- if not, change good_fit to 0
 			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
-			//See if will apply vertical or horizontal or vertical composition 
-			vertical = !vertical;
+			//See if will apply vertical or horizontal or vertical composition
+			vertical = vert_or_horz(A,B); 
+			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_1.push_back(shape_gen(A,B,vertical));	
 		}	
@@ -69,10 +70,10 @@ int main() {
 		{
 			if (B.merged||A.merged||A.name==B.name){continue;}	//Skip merged blocks
 			//See if A and B a good fit to be merged -- if not, change good_fit to 0
-			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
-			//See if will apply vertical or horizontal or vertical composition 
-			vertical = !vertical;
+			//See if will apply vertical or horizontal or vertical composition
+			vertical = vert_or_horz(A,B);  
+			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_2.push_back(shape_gen(A,B,vertical));	
 		}
@@ -111,8 +112,9 @@ int main() {
 			//See if A and B a good fit to be merged -- if not, change good_fit to 0
 			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
-			//See if will apply vertical or horizontal or vertical composition 
-			vertical = !vertical;
+			//See if will apply vertical or horizontal or vertical composition
+			vertical = vert_or_horz(A,B);  
+			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_3.push_back(shape_gen(A,B,vertical));	
 		}
@@ -151,8 +153,9 @@ int main() {
 			//See if A and B a good fit to be merged -- if not, change good_fit to 0
 			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
-			//See if will apply vertical or horizontal or vertical composition 
-			vertical = !vertical;
+			//See if will apply vertical or horizontal or vertical composition
+			vertical = vert_or_horz(A,B);  
+			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_4.push_back(shape_gen(A,B,vertical));	
 		}
@@ -191,8 +194,9 @@ int main() {
 			//See if A and B a good fit to be merged -- if not, change good_fit to 0
 			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
-			//See if will apply vertical or horizontal or vertical composition 
-			vertical = !vertical;
+			//See if will apply vertical or horizontal or vertical composition
+			vertical = vert_or_horz(A,B);  
+			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_5.push_back(shape_gen(A,B,vertical));	
 		}
@@ -232,8 +236,18 @@ int main() {
 	for (auto& g : gate_arr){	
 		core_area=core_area + g.asp_vec[0].x_dim * g.asp_vec[0].y_dim;
 	}
-	//int Min_Area = *min_element(std::begin(TOP_area_vec), std::end(TOP_area_vec));
+	string min_area_children = Big_lvl_5[0].asp_vec[min_area_pos].child_chain;
 	cout<<"The minimum area: "<<Min_Area<<"\t--\t Aspect Ratio: "<<min_asp.x_dim<<" by "<<min_asp.y_dim<<endl;
 	cout<<"The core area: "<<core_area<< "\t--\tThe core utilization: "<<(double)core_area/Min_Area<<endl;
+	cout<<"Tracing Back: "<<min_area_children;
+	//File as output
+	ofstream outFile;
+	outFile.open("out.txt");
+	outFile<<"\nThe Top Floorplan Slicing Tree is: "<<Big_lvl_5[0].name<<endl;
+	outFile<<"The minimum area: "<<Min_Area<<"\t--\t Aspect Ratio: "<<min_asp.x_dim<<" by "<<min_asp.y_dim<<endl;
+	outFile<<"The core area: "<<core_area<< "\t--\tThe core utilization: "<<(double)core_area/Min_Area<<endl;
+	outFile<<"Tracing Back: "<<min_area_children;
+	outFile.close();
+
 	return 0;
 }
