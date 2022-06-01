@@ -232,19 +232,18 @@ int main() {
 	for (auto& g : gate_arr){	
 		core_area=core_area + g.asp_vec[0].x_dim * g.asp_vec[0].y_dim;
 	}
-	//int Min_Area = *min_element(std::begin(TOP_area_vec), std::end(TOP_area_vec));
+	string min_area_children = Big_lvl_5[0].asp_vec[min_area_pos].child_chain;
 	cout<<"The minimum area: "<<Min_Area<<"\t--\t Aspect Ratio: "<<min_asp.x_dim<<" by "<<min_asp.y_dim<<endl;
 	cout<<"The core area: "<<core_area<< "\t--\tThe core utilization: "<<(double)core_area/Min_Area<<endl;
-
-
-	//====================================================//
-	//       		Tracing Back		      //
-	//====================================================//
-	aspect asp_A, asp_B;
-	asp_A = Big_lvl_5[0].children_asp[min_area_pos][0];	//This is the aspect ratio of child A that constituted the min area for the parent
-	asp_B = Big_lvl_5[0].children_asp[min_area_pos][1];	//This is the aspect ratio of child B that constituted the min area for the parent
-	//Go through the children and determine the index of asp_A and asp_B -> then repeat the same for their children
-	
+	cout<<"Tracing Back: "<<min_area_children;
+	//File as output
+	ofstream outFile;
+	outFile.open("out.txt");
+	outFile<<"\nThe Top Floorplan Slicing Tree is: "<<Big_lvl_5[0].name<<endl;
+	outFile<<"The minimum area: "<<Min_Area<<"\t--\t Aspect Ratio: "<<min_asp.x_dim<<" by "<<min_asp.y_dim<<endl;
+	outFile<<"The core area: "<<core_area<< "\t--\tThe core utilization: "<<(double)core_area/Min_Area<<endl;
+	outFile<<"Tracing Back: "<<min_area_children;
+	outFile.close();
 
 	return 0;
 }
