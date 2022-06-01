@@ -13,7 +13,7 @@ int main() {
 	cout << "//====================================================//" <<"\n\t\tAt Beginning\n"<<"//====================================================//\n";
 	for (auto& g : gate_arr)
 	{
-		//print_aspect_ratio(g);
+		print_aspect_ratio(g);
 	}	
 	
 	//====================================================//
@@ -21,22 +21,33 @@ int main() {
 	//====================================================//
 	vector<gate>Big_lvl_1;
 	bool good_fit=1;
+	gate* best_fit;	double least_area; double area_A_B; 
 	bool vertical=0;
-	for (auto& A : gate_arr)
+	for (auto& A : gate_arr)		//This loop goes through all gates to merge them one by one
 	{
+		least_area=INFINITY;
 		if (A.merged){continue;}	//Skip merged blocks
-		for (auto& B : gate_arr)
+		for (auto& B : gate_arr)	//This loop determines the best fit to be merged with gate A.
 		{
-			if (B.merged||A.merged||A.name==B.name){continue;}	//Skip merged blocks
-			//See if A and B a good fit to be merged -- if not, change good_fit to 0
-			/*ADD CODE to change good_fit*/
-			if (!good_fit){continue;}
+			if (B.merged||A.merged||A.name==B.name){
+				continue;
+			}	//Skip merged blocks
+			
 			//See if will apply vertical or horizontal or vertical composition
 			vertical = vert_or_horz(A,B); 
-			
-			/*ADD CODE to change vertical properly*/
-			Big_lvl_1.push_back(shape_gen(A,B,vertical));	
-		}	
+
+			//See if B is best fit to be merged 
+			area_A_B = calc_area(A, B, vertical);
+			cout<<"A: "<< A.name <<" \t--\tB: "<<B.name;
+			cout<<endl;
+			if( least_area>area_A_B ){
+				least_area = area_A_B;	//Block B is the current best fit for A according to the least_area function (This metric can be changed with a better one)
+				best_fit = &B;
+			}			
+		}
+		if (!best_fit->merged){		//To avoid merging twice in odd netlists 
+			Big_lvl_1.push_back(shape_gen(A, *best_fit, vertical));	
+		}	//Skip merged blocks
 	}
 	//Is there unmerged blocks?
 	for (auto& g : gate_arr)
@@ -70,7 +81,6 @@ int main() {
 		{
 			if (B.merged||A.merged||A.name==B.name){continue;}	//Skip merged blocks
 			//See if A and B a good fit to be merged -- if not, change good_fit to 0
-			good_fit = is_good_fit(A,B);
 			if (!good_fit){continue;}
 			//See if will apply vertical or horizontal or vertical composition
 			vertical = vert_or_horz(A,B);  

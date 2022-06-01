@@ -235,7 +235,7 @@ vector<gate> merge(){
 	return Big_lvl;
 }
 
-bool vert_or_horz(gate &A, gate &B){
+bool vert_or_horz(gate A, gate B){
 	int sum_X_A=0, sum_Y_A=0, sum_X_B=0, sum_Y_B=0;
 	bool vertical=0;	//By default, it's horizontal
 	for (auto& asp_A : A.asp_vec)
@@ -257,8 +257,22 @@ bool vert_or_horz(gate &A, gate &B){
 
 bool is_good_fit(gate &A, gate &B){
 	bool good_fit=0;
-	
+
 	return good_fit;
 }
 
-#endif
+double calc_area(gate &A, gate &B, bool vertical){
+	gate big;
+	double area_A_B = INFINITY;
+	big = shape_gen(A , B, vertical);
+	A.merged = 0;
+	B.merged = 0;
+	for (auto& asp : big.asp_vec){	
+		if(asp.x_dim*asp.y_dim<area_A_B){
+			area_A_B = asp.x_dim*asp.y_dim;
+		}
+	}
+	return area_A_B;
+}
+
+#endif		
