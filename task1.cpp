@@ -31,8 +31,9 @@ int main() {
 			//See if A and B a good fit to be merged -- if not, change good_fit to 0
 			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
-			//See if will apply vertical or horizontal or vertical composition 
-			vertical = !vertical;
+			//See if will apply vertical or horizontal or vertical composition
+			vertical = vert_or_horz(A,B); 
+			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_1.push_back(shape_gen(A,B,vertical));	
 		}	
@@ -69,10 +70,11 @@ int main() {
 		{
 			if (B.merged||A.merged||A.name==B.name){continue;}	//Skip merged blocks
 			//See if A and B a good fit to be merged -- if not, change good_fit to 0
-			/*ADD CODE to change good_fit*/
+			good_fit = is_good_fit(A,B);
 			if (!good_fit){continue;}
-			//See if will apply vertical or horizontal or vertical composition 
-			vertical = !vertical;
+			//See if will apply vertical or horizontal or vertical composition
+			vertical = vert_or_horz(A,B);  
+			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_2.push_back(shape_gen(A,B,vertical));	
 		}
@@ -111,8 +113,9 @@ int main() {
 			//See if A and B a good fit to be merged -- if not, change good_fit to 0
 			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
-			//See if will apply vertical or horizontal or vertical composition 
-			vertical = !vertical;
+			//See if will apply vertical or horizontal or vertical composition
+			vertical = vert_or_horz(A,B);  
+			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_3.push_back(shape_gen(A,B,vertical));	
 		}
@@ -151,8 +154,9 @@ int main() {
 			//See if A and B a good fit to be merged -- if not, change good_fit to 0
 			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
-			//See if will apply vertical or horizontal or vertical composition 
-			vertical = !vertical;
+			//See if will apply vertical or horizontal or vertical composition
+			vertical = vert_or_horz(A,B);  
+			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_4.push_back(shape_gen(A,B,vertical));	
 		}
@@ -191,8 +195,9 @@ int main() {
 			//See if A and B a good fit to be merged -- if not, change good_fit to 0
 			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
-			//See if will apply vertical or horizontal or vertical composition 
-			vertical = !vertical;
+			//See if will apply vertical or horizontal or vertical composition
+			vertical = vert_or_horz(A,B);  
+			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_5.push_back(shape_gen(A,B,vertical));	
 		}

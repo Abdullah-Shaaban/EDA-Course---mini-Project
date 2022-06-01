@@ -235,4 +235,30 @@ vector<gate> merge(){
 	return Big_lvl;
 }
 
+bool vert_or_horz(gate &A, gate &B){
+	int sum_X_A=0, sum_Y_A=0, sum_X_B=0, sum_Y_B=0;
+	bool vertical=0;	//By default, it's horizontal
+	for (auto& asp_A : A.asp_vec)
+	{
+		sum_X_A = sum_X_A + asp_A.x_dim;
+		sum_Y_A = sum_Y_A + asp_A.y_dim;
+	}
+	for (auto& asp_B : B.asp_vec)
+	{
+		sum_X_B = sum_X_B + asp_B.x_dim;
+		sum_Y_B = sum_Y_B + asp_B.y_dim;
+	}
+	if( (sum_X_A+sum_X_B) > (sum_Y_A+sum_Y_B) )
+	{
+		vertical = 1;	//Putting horizontally make it too wide; thus, choose vertical
+	}
+	return vertical;
+}
+
+bool is_good_fit(gate &A, gate &B){
+	bool good_fit=0;
+	
+	return good_fit;
+}
+
 #endif
