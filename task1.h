@@ -41,9 +41,9 @@ gate shape_gen(gate &A, gate &B, bool vertical){
 	A.merged = 1;
 	B.merged = 1;
 	//Choosing composition
-	if (vertical)
+	if (!vertical)
 	{
-		G_BIG.name = "(" + A.name + " V " + B.name + ")";
+		G_BIG.name = "(" + A.name + " H " + B.name + ")";
 		for (auto& asp_A_i : A.asp_vec)
 		{
 			for (auto& asp_B_j : B.asp_vec)
@@ -68,7 +68,7 @@ gate shape_gen(gate &A, gate &B, bool vertical){
 	}
 	else
 	{
-		G_BIG.name = "(" + A.name + " H " + B.name + ")";
+		G_BIG.name = "(" + A.name + " V " + B.name + ")";
 		for (auto& asp_A_i : A.asp_vec)
 		{
 			for (auto& asp_B_j : B.asp_vec)

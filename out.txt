@@ -1,5 +1,5 @@
 
-The Top Floorplan Slicing Tree is: (((F1 H I1) H ((F3 H I3) H (F2 H I2))) H ((((A3 H O3) H (X2 H O2)) H (F10 H (F8 H F9))) H (((X1 H A2) H (A1 H O1)) H ((F6 H F7) H (F4 H F5)))))
-The minimum area: 312	--	 Aspect Ratio: 8 by 39
-The core area: 172	--	The core utilization: 0.551282
-Tracing Back: F1=8by1  &  I1=2by1  &  F3=8by1  &  I3=2by1  &  F2=8by1  &  I2=2by1  &  A3=3by3  &  O3=3by3  &  X2=4by4  &  O2=3by3  &  F10=8by1  &  F8=8by1  &  F9=8by1  &  X1=4by4  &  A2=3by3  &  A1=3by3  &  O1=3by3  &  F6=8by1  &  F7=8by1  &  F4=8by1  &  F5=8by1
+The Top Floorplan Slicing Tree is: (((F1 H I1) H ((F3 H I3) V (F2 H I2))) H ((((A3 H O3) V (X2 H O2)) H (F10 V (F8 H F9))) V (((X1 H A2) V (A1 H O1)) H ((F6 H F7) V (F4 H F5)))))
+The minimum area: 416	--	 Aspect Ratio: 13 by 32
+The core area: 172	--	The core utilization: 0.413462
+Tracing Back: F1=1by8  &  I1=1by2  &  F3=1by8  &  I3=1by2  &  F2=1by8  &  I2=1by2  &  A3=3by3  &  O3=3by3  &  X2=4by4  &  O2=3by3  &  F10=1by8  &  F8=1by8  &  F9=1by8  &  X1=4by4  &  A2=3by3  &  A1=3by3  &  O1=3by3  &  F6=1by8  &  F7=1by8  &  F4=1by8  &  F5=1by8
