@@ -32,7 +32,8 @@ int main() {
 			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
 			//See if will apply vertical or horizontal or vertical composition
-			vertical = vert_or_horz(A,B); 
+			//vertical = vert_or_horz(A,B);
+			vertical = !vertical; 
 			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_1.push_back(shape_gen(A,B,vertical));	
@@ -72,7 +73,8 @@ int main() {
 			//See if A and B a good fit to be merged -- if not, change good_fit to 0
 			if (!good_fit){continue;}
 			//See if will apply vertical or horizontal or vertical composition
-			vertical = vert_or_horz(A,B);  
+			//vertical = vert_or_horz(A,B);
+			vertical = !vertical;  
 			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_2.push_back(shape_gen(A,B,vertical));	
@@ -113,7 +115,8 @@ int main() {
 			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
 			//See if will apply vertical or horizontal or vertical composition
-			vertical = vert_or_horz(A,B);  
+			//vertical = vert_or_horz(A,B);
+			vertical = !vertical;  
 			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_3.push_back(shape_gen(A,B,vertical));	
@@ -154,7 +157,8 @@ int main() {
 			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
 			//See if will apply vertical or horizontal or vertical composition
-			vertical = vert_or_horz(A,B);  
+			//vertical = vert_or_horz(A,B);
+			vertical = !vertical;  
 			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_4.push_back(shape_gen(A,B,vertical));	
@@ -195,7 +199,8 @@ int main() {
 			/*ADD CODE to change good_fit*/
 			if (!good_fit){continue;}
 			//See if will apply vertical or horizontal or vertical composition
-			vertical = vert_or_horz(A,B);  
+			//vertical = vert_or_horz(A,B);
+			vertical = !vertical;  
 			
 			/*ADD CODE to change vertical properly*/
 			Big_lvl_5.push_back(shape_gen(A,B,vertical));	
@@ -241,6 +246,7 @@ int main() {
 	cout<<"The core area: "<<core_area<< "\t--\tThe core utilization: "<<(double)core_area/Min_Area<<endl;
 	cout<<"Tracing Back: "<<min_area_children;
 	//File as output
+	/*
 	ofstream outFile;
 	outFile.open("out.txt");
 	outFile<<"\nThe Top Floorplan Slicing Tree is: "<<Big_lvl_5[0].name<<endl;
@@ -248,6 +254,6 @@ int main() {
 	outFile<<"The core area: "<<core_area<< "\t--\tThe core utilization: "<<(double)core_area/Min_Area<<endl;
 	outFile<<"Tracing Back: "<<min_area_children;
 	outFile.close();
-
+	*/
 	return 0;
 }
