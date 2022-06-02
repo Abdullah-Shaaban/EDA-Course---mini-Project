@@ -93,13 +93,13 @@ gate shape_gen(gate &A, gate &B, bool vertical){
 	return G_BIG;
 }
 
-void print_aspect_ratio(gate g)
+void print_aspect_ratio(gate g, ofstream &outFile)
 {
-	cout<<"Gate Name: "<<g.name<<"\tGate type: "<<g.gate_type<<"\nPrinting aspect ratios:\n";
+	outFile<<"Gate Name: "<<g.name<<"\tGate type: "<<g.gate_type<<"\nPrinting aspect ratios:\n";
 	for (auto& A_i : g.asp_vec)
 	{
-		cout<<"x_dim= "<<A_i.x_dim<<"\ty_dim= "<<A_i.y_dim;
-		cout<<"\t--\tChildren:\t"<< A_i.child_chain<<endl;
+		outFile<<"x_dim= "<<A_i.x_dim<<"\ty_dim= "<<A_i.y_dim;
+		outFile<<"\t--\tChildren:\t"<< A_i.child_chain<<endl;
 	}
 }
 
@@ -219,20 +219,16 @@ void fill_comp(gate &g1, string str){
 	g1.asp_vec[1].child_chain = g1.name + "=" + to_string(g1.asp_vec[1].x_dim) + "by" + to_string (g1.asp_vec[1].y_dim);
 }
 
-void fill_component_arr_general (ifstream &file, gate comp[], int n){
+void fill_component_arr_general (ifstream &file, vector<gate> &gates, int n){
     string tmp;
     for (int i=0; i<n; i++){
+    	gate   g;
         getline(file,tmp);
-        fill_comp(comp[i], tmp);
+        fill_comp(g, tmp);
+	gates.push_back(g);
     }
     file.clear();
     file.seekg(0);
-}
-
-vector<gate> merge(){
-	vector<gate>Big_lvl;
-	//
-	return Big_lvl;
 }
 
 bool vert_or_horz(gate A, gate B){
@@ -275,4 +271,46 @@ double calc_area(gate &A, gate &B, bool vertical){
 	return area_A_B;
 }
 
+vector<gate> merge(vector<gate>&gate_arr)
+{
+	vector<gate>Big;
+	gate* best_fit;	double least_area; double area_A_B; 
+	bool vertical=0;
+	for (auto& A : gate_arr)		//This loop goes through all gates to merge them one by one
+	{
+		least_area=INFINITY;
+		if (A.merged){continue;}	//Skip merged blocks
+		for (auto& B : gate_arr)	//This loop determines the best fit to be merged with gate A.
+		{
+			if (B.merged||A.merged||A.name==B.name){
+				continue;
+			}	//Skip merged blocks
+			
+			//See if will apply vertical or horizontal or vertical composition
+			vertical = vert_or_horz(A,B); 
+
+			//See if B is best fit to be merged 
+			area_A_B = calc_area(A, B, vertical);
+			//cout<<"A: "<< A.name <<" \t--\tB: "<<B.name;
+			//cout<<endl;
+			if( least_area>area_A_B ){
+				least_area = area_A_B;	//Block B is the current best fit for A according to the least_area function (This metric can be changed with a better one)
+				best_fit = &B;
+			}			
+		}
+		if (!best_fit->merged){		//To avoid merging twice in odd netlists 
+			Big.push_back(shape_gen(A, *best_fit, vertical));	
+		}	//Skip merged blocks
+	}
+	//Is there unmerged blocks?
+	for (auto& g : gate_arr)
+	{
+		if (!g.merged)
+		{
+			Big.push_back(g);
+		}
+		
+	}
+	return Big;
+}
 #endif		
